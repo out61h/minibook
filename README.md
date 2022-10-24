@@ -19,3 +19,4 @@ Minibook can beautifully format text and wrap words but optimized primarily for 
 - [ ] Resolve TODO comments in code
 - [ ] Replace non-printable symbols by whitespaces in input stream
 - [ ] Imrove LineUnwrapper's logic
+- [ ] Add JPEG support
