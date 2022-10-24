@@ -90,7 +90,10 @@ void Params::Load( std::string_view filename )
     {
         const auto& typesetter = json.at( "typesetter" );
 
+        Typesetter.Format = typesetter.at( "format" ).get<std::string>();
+        Typesetter.Jpg.Quality = typesetter.at( "jpg" ).at( "quality" ).get<int>();
         Typesetter.Logging = typesetter.at( "logging" ).get<bool>();
+        Typesetter.Png.Compression = typesetter.at( "png" ).at( "compression" ).get<int>();
         Typesetter.Preprocessing = typesetter.at( "preprocessing" ).get<bool>();
     }
 
@@ -135,8 +138,15 @@ void Params::Save( std::string_view filename )
             { "pages", Chapter.Pages }
         }},
         { "typesetter", {
+            { "format", Typesetter.Format },
             { "logging", Typesetter.Logging },
             { "preprocessing", Typesetter.Preprocessing },
+            { "jpg", {
+                { "quality", Typesetter.Jpg.Quality }
+            }},
+            { "png", {
+                { "compression", Typesetter.Png.Compression }
+            }},
         }}
     };
     // clang-format on

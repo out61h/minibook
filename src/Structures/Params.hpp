@@ -51,7 +51,18 @@ namespace Minibook
         struct Typesetter
         {
             bool Preprocessing{ true };
-            bool Logging = false;
+            bool Logging{ false };
+            std::string Format{ "png" };
+
+            struct Jpg
+            {
+                int Quality{ 20 };
+            } Jpg;
+
+            struct Png
+            {
+                int Compression{ 9 };
+            } Png;
         } Typesetter;
     };
 } // namespace Minibook

@@ -28,6 +28,11 @@ int Page::GetHeight() const
     return m_height;
 }
 
+const uint8_t* Page::GetBuffer() const
+{
+    return m_pixels.get();
+}
+
 uint8_t Page::operator()( int col, int row ) const
 {
     assert( col >= 0 && col < m_width );

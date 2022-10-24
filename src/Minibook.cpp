@@ -5,6 +5,7 @@
 #include <Streams/CarriageReturnEater.hpp>
 #include <Streams/CharLogger.hpp>
 #include <Streams/FileReader.hpp>
+#include <Streams/ImageWriter.hpp>
 #include <Streams/LineUnwrapper.hpp>
 #include <Streams/Packager.hpp>
 #include <Streams/PngWriter.hpp>
@@ -107,6 +108,7 @@ int main( int argc, char* argv[] )
 
         {
             using CharStream = Stream<std::optional<wchar_t>>;
+            using WriterStream = Stream<size_t>;
 
             TrueTypeFont font( params.Font.Name, params.Font.Size, params.Font.Hinting );
 
@@ -135,13 +137,23 @@ int main( int argc, char* argv[] )
 
             // save rastered text to PNG files
             Packager packager( printer, outputFolder, params.Chapter.Pages );
-            PngWriter writer( packager );
+
+            std::unique_ptr<WriterStream> writer;
+
+#if MINIBOOK_USE_LIBPNG
+            if ( params.Typesetter.Format == "png" )
+                writer = std::make_unique<PngWriter>( packager );
+            else
+                writer = std::make_unique<ImageWriter>( packager, params );
+#else
+            writer = std::make_unique<ImageWriter>( packager, params );
+#endif
 
             // main loop
             size_t fileSize = 0;
             size_t totalFileSize = 0;
 
-            for ( int page = 1; ( fileSize = writer.Fetch() ) > 0; ++page )
+            for ( int page = 1; ( fileSize = writer->Fetch() ) > 0; ++page )
             {
                 std::cerr << "\r";
                 std::cerr << "Page: " << std::setw( 4 ) << page << " ";

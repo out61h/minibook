@@ -18,6 +18,7 @@ namespace Minibook
     {
     public:
         using GammaLut = agg::gamma_lut<agg::int8u, agg::int16u, 8, 16>;
+        // TODO: greyscale 8 bit
         using PixelFormat = agg::pixfmt_bgr24_gamma<GammaLut>;
         using Renderer = agg::renderer_base<PixelFormat>;
         using RendererAntiAlias = agg::renderer_scanline_aa_solid<Renderer>;
@@ -28,6 +29,7 @@ namespace Minibook
 
         int GetWidth() const;
         int GetHeight() const;
+        const uint8_t* GetBuffer() const;
 
         uint8_t operator()( int col, int row ) const;
 

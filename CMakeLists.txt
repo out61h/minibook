@@ -5,6 +5,17 @@ set( PROJECT_NAME Minibook )
 project( ${PROJECT_NAME} VERSION 0.0 LANGUAGES C CXX )
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_LIST_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_LIST_DIR}/bin)
+
+option(MINIBOOK_USE_LIBPNG "Use libpng for writting PNG files" ON)
+
+if(MINIBOOK_USE_LIBPNG)
+    add_definitions(-DMINIBOOK_USE_LIBPNG=1)
+else()
+    add_definitions(-DMINIBOOK_USE_LIBPNG=0)
+endif()
+
 aux_source_directory(src/ SOURCES)
 aux_source_directory(src/Exceptions/ SOURCES)
 aux_source_directory(src/Implementations/ SOURCES)
@@ -14,6 +25,7 @@ add_executable( ${PROJECT_NAME} ${SOURCES} )
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 
+find_package(Stb REQUIRED)
 find_package(PNG REQUIRED)
 find_package(Agg REQUIRED)
 find_package(Freetype REQUIRED)
@@ -21,9 +33,10 @@ find_package(nlohmann_json 3.2.0 REQUIRED)
 
 target_include_directories(${PROJECT_NAME} PUBLIC 
     src/
-    ${PNG_INCLUDE_DIR}
     ${AGG_INCLUDE_DIRS}
     ${FREETYPE_INCLUDE_DIRS}
+    ${PNG_INCLUDE_DIR}
+    ${Stb_INCLUDE_DIR}
 )
 
 target_link_directories(${PROJECT_NAME} PUBLIC
