@@ -1,11 +1,12 @@
 # Minibook
 
 Minibook is a text-to-image converter. 
+
 Minibook can be used to read books on dumb cellphones that does not have a text reader, but has a built-in image viewer.
+
 Minibook can beautifully format text and wrap words but optimized primarily for Cyrillic and English texts.
 
 ## TODO
-(Task List)
 ```
 - [ ] More Doxygen-style comments
 - [ ] Support CR for line termination
