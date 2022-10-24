@@ -6,6 +6,8 @@ Minibook can be used to read books on dumb cellphones that does not have a text 
 
 Minibook can beautifully format text and wrap words but optimized primarily for Cyrillic and English texts.
 
+![Sample](./doc/sample.jpg)
+
 ## TODO
 ```
 - [ ] More Doxygen-style comments
