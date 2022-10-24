@@ -11,12 +11,12 @@ Minibook can beautifully format text and wrap words but optimized primarily for 
 ![Sample](./doc/sample.jpg)
 
 ## Dependencies
-- Anti-Grain Geometry library
-- FreeType library
-- libpng library (optional)
-- Niels Lohmann's JSON library
-- STB_image library
-- DroidSans font
+- [Anti-Grain Geometry library](https://github.com/ghaerr/agg-2.6)
+- [FreeType library](http://freetype.org)
+- [libpng library](http://www.libpng.org/pub/png/libpng.html) (optional)
+- [Niels Lohmann's JSON library](https://github.com/nlohmann/json)
+- [STB library](https://github.com/nothings/stb)
+- [DroidSans font](https://fonts.adobe.com/fonts/droid-sans)
 
 ## Building
 
@@ -50,7 +50,7 @@ Minibook --config=param.json --output=export book.txt
 
 ###Notes
 - Some phones support only JPEG images. Some others don't support nested folders in `Photos` directory. So you might have to adjust appropriate  arameters in JSON config.
-- By default, Minibook uses DroidSans.ttf font for text rendering. You should download and place DroidSans.ttf to Minibook binary file location folder.
+- By default, Minibook uses `DroidSans.ttf` font for text rendering. You should download and place `DroidSans.ttf` to Minibook binary file location folder.
 
 ## TODO
 ```
