@@ -164,7 +164,7 @@ int main( int argc, char* argv[] )
             }
 
             std::cerr << std::endl;
-            std::cerr << "Total file size: " << totalFileSize / 1024 << " KiB" << std::endl;
+            std::cerr << "Images total size: " << totalFileSize / 1024 << " KiB" << std::endl;
         }
     }
     catch ( const std::exception& ex )
