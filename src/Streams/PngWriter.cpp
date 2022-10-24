@@ -13,6 +13,12 @@
 
 using namespace Minibook;
 
+namespace
+{
+    constexpr int kBitDepth = 4;
+    constexpr int kPixelsPerByte = 2;
+} // namespace
+
 struct Png
 {
     Png()
@@ -43,10 +49,10 @@ public:
         , m_height( height )
         , m_rows( height, nullptr )
     {
-        assert( width % 2 == 0 );
+        assert( width % kPixelsPerByte == 0 );
 
         for ( size_t row = 0; row < height; ++row )
-            m_rows[row] = new png_byte[( width + 1 ) / 2];
+            m_rows[row] = new png_byte[( width + 1 ) / kPixelsPerByte];
     }
 
     ~Impl()
@@ -59,12 +65,12 @@ public:
     {
         assert( col < width && row < height );
 
-        png_byte byte = m_rows[row][col / 2];
+        png_byte byte = m_rows[row][col / kPixelsPerByte];
 
-        byte = ( col % 2 ) ? ( byte & 0xf0 ) + ( 0x0f & pix )
-                           : ( byte & 0x0f ) + ( ( 0x0f & pix ) << 4 );
+        byte = ( col % kPixelsPerByte ) ? ( byte & 0xf0 ) + ( 0x0f & pix )
+                                        : ( byte & 0x0f ) + ( ( 0x0f & pix ) << kBitDepth );
 
-        m_rows[row][col / 2] = byte;
+        m_rows[row][col / kPixelsPerByte] = byte;
     }
 
     void SaveToFile( std::string_view filename )
@@ -87,7 +93,7 @@ public:
                       png.Info,
                       m_width,
                       m_height,
-                      4,
+                      kBitDepth,
                       PNG_COLOR_TYPE_GRAY,
                       PNG_INTERLACE_NONE,
                       PNG_COMPRESSION_TYPE_BASE,
@@ -134,7 +140,7 @@ size_t PngWriter::Fetch()
     {
         for ( int x = 0; x < page->GetWidth(); ++x )
         {
-            impl.SetPixel( x, y, ( *page )( x, y ) / 16 );
+            impl.SetPixel( x, y, ( *page )( x, y ) >> kBitDepth );
         }
     }
 
