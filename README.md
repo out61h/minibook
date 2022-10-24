@@ -16,10 +16,20 @@ Minibook can beautifully format text and wrap words but optimized primarily for 
 - libpng library (optional)
 - Niels Lohmann's JSON library
 - STB_image library
+- DroidSans font
 
 ## Building
 
-## Usage
+### Windows
+
+Brief:
+1. Install Windows SDK, Build Tools for Visual Studio
+2. Install CMake
+3. Download, build and install dependencies
+4. Clone or export Minibook repo
+5. Configure project with CMake
+6. Build project with CMake
+
 ## Usage
 
 1. Prepare text file (e.g. `book.txt`). It should be in UTF-8 encoding with BOM ([Byte Order Mark](https://en.wikipedia.org/wiki/Byte_order_mark))
@@ -38,10 +48,13 @@ Minibook --config=param.json --output=export book.txt
 ```
 6. Connect cell phone to computer via USB cable. Set connection mode to access phone filesystem. Copy directory with pictures to a phone `Photos` folder. 
 
-**Note**: Some phones support only JPEG images. Some others don't support nested folders in `Photos` directory. So you might have to adjust appropriate  arameters in JSON config.
+###Notes
+- Some phones support only JPEG images. Some others don't support nested folders in `Photos` directory. So you might have to adjust appropriate  arameters in JSON config.
+- By default, Minibook uses DroidSans.ttf font for text rendering. You should download and place DroidSans.ttf to Minibook binary file location folder.
 
 ## TODO
 ```
+- [ ] Add detailed building instruction
 - [ ] More Doxygen-style comments
 - [ ] Support CR for line termination
 - [ ] Use STL for working with Unicode
@@ -52,3 +65,4 @@ Minibook --config=param.json --output=export book.txt
 - [ ] Replace non-printable symbols by whitespaces in input stream
 - [ ] Imrove LineUnwrapper's logic
 - [ ] Add clang-tidy config
+- [ ] Copy libpng binary files to binary output directory
