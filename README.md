@@ -11,6 +11,7 @@ Minibook can beautifully format text and wrap words but optimized primarily for 
 ![Sample](./doc/sample.jpg)
 
 ## Dependencies
+
 - [Anti-Grain Geometry library](https://github.com/ghaerr/agg-2.6)
 - [FreeType library](http://freetype.org)
 - [libpng library](http://www.libpng.org/pub/png/libpng.html) (optional)
@@ -48,11 +49,13 @@ Minibook --config=param.json --output=export book.txt
 ```
 6. Connect cell phone to computer via USB cable. Set connection mode to access phone filesystem. Copy directory with pictures to a phone `Photos` folder. 
 
-###Notes
+### Notes
+
 - Some phones support only JPEG images. Some others don't support nested folders in `Photos` directory. So you might have to adjust appropriate  arameters in JSON config.
 - By default, Minibook uses `DroidSans.ttf` font for text rendering. You should download and place `DroidSans.ttf` to Minibook binary file location folder.
 
 ## TODO
+
 ```
 - [ ] Add detailed building instruction
 - [ ] More Doxygen-style comments
