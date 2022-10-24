@@ -38,7 +38,7 @@ Minibook --config=param.json --output=export book.txt
 ```
 6. Connect cell phone to computer via USB cable. Set connection mode to access phone filesystem. Copy directory with pictures to a phone `Photos` folder. 
 
-Note: Some phones supports only JPEG images. Some others don't support nested folders in `Photos` directory. So you might have to adjust appropriate  parameters in JSON config.
+**Note**: Some phones support only JPEG images. Some others don't support nested folders in `Photos` directory. So you might have to adjust appropriate  arameters in JSON config.
 
 ## TODO
 ```
