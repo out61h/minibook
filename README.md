@@ -57,6 +57,9 @@ Minibook --config=param.json --output=export book.txt
 ## TODO
 
 ```
+- [ ] Update CMakeLists.txt
+- [ ] Imrove LineUnwrapper's logic
+- [ ] Fix wrong color components?
 - [ ] Add detailed building instruction
 - [ ] More Doxygen-style comments
 - [ ] Support CR for line termination
@@ -66,6 +69,5 @@ Minibook --config=param.json --output=export book.txt
 - [ ] Remove AGG inclusions from headers (using Pimpl?)
 - [ ] Resolve TODO comments in code
 - [ ] Replace non-printable symbols by whitespaces in input stream
-- [ ] Imrove LineUnwrapper's logic
 - [ ] Add clang-tidy config
 - [ ] Copy libpng binary files to binary output directory
