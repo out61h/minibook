@@ -1,3 +1,13 @@
+/*
+ * Copyright (C) 2016-2022 Konstantin Polevik
+ * All rights reserved
+ *
+ * This file is part of the Minibook. Redistribution and use in source and
+ * binary forms, with or without modification, are permitted exclusively
+ * under the terms of the MIT license. You should have received a copy of the
+ * license with this file. If not, please visit:
+ * https://github.com/out61h/minibook/blob/main/LICENSE
+ */
 #include "LineUnwrapper.hpp"
 
 #include <Constants/Chars.hpp>
@@ -14,7 +24,7 @@ LineUnwrapper::LineUnwrapper( CharStream& source )
 {
 }
 
-// TODO: Eat extra spaces, add tabs at the beginning of a paragraph, spaces after and before
+// TODO: Eat extra spaces, add tabs at the beginning of a paragraph, and spaces after and before
 // punctuation
 // TODO: Leave the LF that comes after the . ... ! ?
 std::optional<wchar_t> LineUnwrapper::Fetch()
@@ -40,7 +50,7 @@ std::optional<wchar_t> LineUnwrapper::Fetch()
             // TODO: Not only spaces, but also tabs
             if ( result == Chars::kSpace )
             {
-                // After the line breaks, there are spaces. Most likely this is a simulation of a
+                // After line breaks, there are spaces. Most likely it is a simulation of a
                 // paragraph indent
                 // TODO: whether it is necessary to "eat" whitespace?
                 m_state = State::EatingLeadingWhitespaces;
@@ -50,7 +60,7 @@ std::optional<wchar_t> LineUnwrapper::Fetch()
             }
             else if ( result == Chars::kLineFeed )
             {
-                // After a LF there is a LF occured again, this is exactly a paragraph
+                // After a LF there is a LF occured again, it is exactly a paragraph
                 // TODO: whether it is necessary to "eat" LF?
                 break;
             }

@@ -1,3 +1,13 @@
+/*
+ * Copyright (C) 2016-2022 Konstantin Polevik
+ * All rights reserved
+ *
+ * This file is part of the Minibook. Redistribution and use in source and
+ * binary forms, with or without modification, are permitted exclusively
+ * under the terms of the MIT license. You should have received a copy of the
+ * license with this file. If not, please visit:
+ * https://github.com/out61h/minibook/blob/main/LICENSE
+ */
 #include <Exceptions/BadUnicodeData.hpp>
 #include <Exceptions/FileNotOpened.hpp>
 #include <Exceptions/UnknownEncoding.hpp>
@@ -60,21 +70,21 @@ int main( int argc, char* argv[] )
 
         if ( needHelp )
         {
-            std::cerr << "Minibook - text to image converter." << std::endl;
-            std::cerr << std::endl;
-            std::cerr << "Usage:" << std::endl;
-            std::cerr << "  Minibook [--config=<file>] [--output=<folder>] <textfile>";
-            std::cerr << "  # Rasterizes input UTF8 encoded text file to PNG images" << std::endl;
-            std::cerr << "  Minibook --config=<file>                                 ";
-            std::cerr << "  # Exports default configuration to JSON file" << std::endl;
-            std::cerr << "  Minibook --help                                          ";
-            std::cerr << "  # Shows this screen" << std::endl;
-            std::cerr << std::endl;
-            std::cerr << "Options:" << std::endl;
-            std::cerr << "--help             Shows this screen." << std::endl;
-            std::cerr << "--config=<file>    Specifies JSON configuration file name." << std::endl;
-            std::cerr << "--output=<folder>  Specifies output folder name." << std::endl;
-            std::cerr << std::endl;
+            std::cout << "Minibook - text to image converter." << std::endl;
+            std::cout << std::endl;
+            std::cout << "Usage:" << std::endl;
+            std::cout << "  Minibook [--config=<file>] [--output=<folder>] <textfile>";
+            std::cout << "  # Rasterizes input UTF8 encoded text file to PNG images" << std::endl;
+            std::cout << "  Minibook --config=<file>                                 ";
+            std::cout << "  # Exports default configuration to JSON file" << std::endl;
+            std::cout << "  Minibook --help                                          ";
+            std::cout << "  # Shows this screen" << std::endl;
+            std::cout << std::endl;
+            std::cout << "Options:" << std::endl;
+            std::cout << "--help             Shows this screen." << std::endl;
+            std::cout << "--config=<file>    Specifies JSON configuration file name." << std::endl;
+            std::cout << "--output=<folder>  Specifies output folder name." << std::endl;
+            std::cout << std::endl;
 
             return EXIT_SUCCESS;
         }
@@ -155,16 +165,16 @@ int main( int argc, char* argv[] )
 
             for ( int page = 1; ( fileSize = writer->Fetch() ) > 0; ++page )
             {
-                std::cerr << "\r";
-                std::cerr << "Page: " << std::setw( 4 ) << page << " ";
-                std::cerr << "(" << std::fixed << std::setprecision( 0 )
+                std::cout << "\r";
+                std::cout << "Page: " << std::setw( 4 ) << page << " ";
+                std::cout << "(" << std::fixed << std::setprecision( 0 )
                           << reader.GetProgress() * 100.0 << "%)";
 
                 totalFileSize += fileSize;
             }
 
-            std::cerr << std::endl;
-            std::cerr << "Images total size: " << totalFileSize / 1024 << " KiB" << std::endl;
+            std::cout << std::endl;
+            std::cout << "Images total size: " << totalFileSize / 1024 << " KiB" << std::endl;
         }
     }
     catch ( const std::exception& ex )
