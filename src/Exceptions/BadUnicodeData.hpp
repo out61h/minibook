@@ -20,7 +20,7 @@ namespace Minibook
         {
         public:
             BadUnicodeData()
-                : std::runtime_error( "Bad unicode data" )
+                : std::runtime_error( "Bad Unicode data" )
             {
             }
         };
