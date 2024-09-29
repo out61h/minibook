@@ -73,7 +73,7 @@ public:
 
     void SetPixel( size_t col, size_t row, uint8_t pix )
     {
-        assert( col < width && row < height );
+        assert( col < m_width && row < m_height );
 
         png_byte byte = m_rows[row][col / kPixelsPerByte];
 
