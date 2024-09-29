@@ -1,12 +1,12 @@
 # Minibook
 
-Minibook is a text-to-image converter, written by Konstantin Polevik in C++.
+“Minibook” is text-to-image converter, written in C++.
 
 ## About the Project
 
-Minibook can be used to read books on dumb cellphones that does not have a text reader, but has a built-in image viewer.
+“Minibook” allows one to read books on cellphones that do not have a text reader, but have a built-in image viewer.
 
-Minibook can beautifully format text and wrap words but optimized primarily for Cyrillic and English texts.
+“Minibook” hyphenates words and formats text beautifully. It's optimized primarily for Cyrillic and English texts.
 
 ![Sample](./doc/sample.jpg)
 
@@ -17,57 +17,54 @@ Minibook can beautifully format text and wrap words but optimized primarily for 
 - [libpng library](http://www.libpng.org/pub/png/libpng.html) (optional)
 - [Niels Lohmann's JSON library](https://github.com/nlohmann/json)
 - [STB library](https://github.com/nothings/stb)
-- [DroidSans font](https://fonts.adobe.com/fonts/droid-sans)
+- [Droid Sans font](https://fonts.adobe.com/fonts/droid-sans)
 
 ## Building
 
 ### Windows
 
-Brief:
-1. Install Windows SDK, Build Tools for Visual Studio
-2. Install CMake
-3. Download, build and install dependencies
-4. Clone or export Minibook repo
-5. Configure project with CMake
-6. Build project with CMake
+Prerequisites: 
+- Windows SDK.
+- Microsoft C++ Build Tools.
+- CMake.
 
 ## Usage
 
-1. Prepare text file (e.g. `book.txt`). It should be in UTF-8 encoding with BOM ([Byte Order Mark](https://en.wikipedia.org/wiki/Byte_order_mark))
-2. Export default conversion parameters to JSON config file by using `--config` option:
+1. Prepare text file (e.g. `book.txt`). It must be encoded in UTF-8 with BOM ([Byte Order Mark](https://en.wikipedia.org/wiki/Byte_order_mark))
+2. Export default conversion parameters to JSON configuration file using the `--config` option:
 ```
 Minibook --config=param.json 
 ```
-3. Inspect JSON config file and adjust parameters values
-4. Convert text to a set of images:
+3. Inspect JSON configuration and adjust parameters.
+4. Convert the text to a set of images:
 ```
 Minibook --config=param.json book.txt
 ```
-5. Found the pictures in the directory `book`. You can direct set output directory name (e.g. `export`) by using option `--output`:
+5. Find the images in the `book` directory. You can directly specify the output directory name (e.g. `export`) with the  `--output` option:
 ```
 Minibook --config=param.json --output=export book.txt
 ```
-6. Connect cell phone to computer via USB cable. Set connection mode to access phone filesystem. Copy directory with pictures to a phone `Photos` folder. 
+6. Connect cell phone to a computer via USB cable. Set connection mode to access the phone's filesystem. Copy directory with images to the phone's `Photos` folder.
 
 ### Notes
 
-- Some phones support only JPEG images. Some others don't support nested folders in `Photos` directory. So you might have to adjust appropriate  arameters in JSON config.
-- By default, Minibook uses `DroidSans.ttf` font for text rendering. You should download and place `DroidSans.ttf` to Minibook binary file location folder.
+- Some phones only support JPEG images. Some others don't support nested folders in the `Photos` directory. So you may have to adjust the relevant configuration settings in the JSON file.
+- “Minibook” uses the `DroidSans.ttf` font to render text by default. You should download it and place it next to the  `Minibook.exe` file.
 
 ## TODO
 
 ```
-- [ ] Update CMakeLists.txt
-- [ ] Imrove LineUnwrapper's logic
+- [ ] Update CMakeLists.txt.
+- [ ] Imrove `LineUnwrapper` logic.
 - [ ] Fix wrong color components?
-- [ ] Add detailed building instruction
-- [ ] More Doxygen-style comments
-- [ ] Support CR for line termination
-- [ ] Use STL for working with Unicode
-- [ ] Turn on and fix more compiler warnings
-- [ ] More platform and compilers support
-- [ ] Remove AGG inclusions from headers (using Pimpl?)
-- [ ] Resolve TODO comments in code
-- [ ] Replace non-printable symbols by whitespaces in input stream
-- [ ] Add clang-tidy config
-- [ ] Copy libpng binary files to binary output directory
+- [ ] Add detailed building instruction.
+- [ ] Add more Doxygen-style comments.
+- [ ] Support CR for line termination.
+- [ ] Use STL to work with Unicode.
+- [ ] Enable and fix more compiler warnings.
+- [ ] Support for more platform and compilers.
+- [ ] Remove `AGG` library inclusions from headers (using `Pimpl`?)
+- [ ] Resolve TODOs in the code.
+- [ ] Replace non-printable characters with whitespaces in input stream.
+- [ ] Add `clang-tidy` config.
+- [ ] Copy `libpng`` binary files to binary output directory.
