@@ -17,53 +17,13 @@
   #
   FIND_PATH(AGG_DIR_BIN AggConfig.cmake
     # Look for an environment variable AGG_DIR.
-    $ENV{AGG_DIR}/bin
-    ${AGG_DIR}/bin
+    $ENV{AGG_DIR}
+    ${AGG_DIR}
 
-    # Look in search path.
-    $ENV{PATH}
-
-    NO_DEFAULT_PATH 
-    DOC "WXART2D_DIR found"
-    
-    # Help the user find it if we cannot.
-    DOC "The Agg bin dir"
-  )
-  
-  
-  FIND_PATH(AGG_DIR_BIN AggConfig.cmake
-
-    # Look in standard UNIX install locations.
-    /usr/local/bin
-    /usr/local/lib/agg
-    /usr/lib/agg
-    /usr/local/include/agg
-    /usr/local/include
-    /usr/include
-    /usr/local/agg
-    /usr/X11R6/include
-
-    "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Agg\\antigrain 0.1.1]/bin"
-    "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Agg_is1;Inno Setup: App Path]/bin"
- 
-    # Read from the CMakeSetup registry entries.  It is likely that
-    # AGG will have been recently built.
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild1]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild2]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild3]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild4]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild5]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild6]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild7]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild8]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild9]/bin
-    [HKEY_CURRENT_USER\\Software\\Kitware\\CMakeSetup\\Settings\\StartPath;WhereBuild10]/bin
-
-    # Help the user find it if we cannot.
-    DOC "The Agg bin dir"
+    PATH_SUFFIXES bin
   )
 
-# If AGG was found, load the configuration file to get the rest of the
+  # If AGG was found, load the configuration file to get the rest of the
 # settings.
 IF( AGG_DIR_BIN )
 
@@ -140,10 +100,8 @@ IF( AGG_DIR_BIN )
     SET( AGG_INCLUDE_DIRS ${AGG_INCLUDE_DIR} )
   
   ENDIF(AGG_BUILT_WITH_CMAKE)
-	
+
 ENDIF( AGG_DIR_BIN)
-
-
 
 #MESSAGE ( "AGG_INCLUDE_DIRS => ${AGG_INCLUDE_DIRS}" )
 #MESSAGE ( "AGG_LIBRARIES => ${AGG_LIBRARIES}" )
