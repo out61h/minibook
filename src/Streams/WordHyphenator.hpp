@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -10,7 +10,7 @@
  */
 #pragma once
 
-#include <Interfaces/Stream.hpp>
+#include "Types.hpp"
 
 #include <deque>
 #include <map>
@@ -20,17 +20,17 @@
 namespace Minibook
 {
     /**
-     * @brief Breaks lexemes into syllables that can be hyphenated.
+     * @brief Breaks words into hyphenated syllables.
      */
-    class WordHyphenator final : public Stream<std::wstring>
+    class WordHyphenator final : public WordStream
     {
     public:
-        explicit WordHyphenator( Stream<std::wstring>& source );
+        explicit WordHyphenator( WordStream& source );
 
         /**
-         * @return empty string, if end of stream reached
+         * @return empty string, if  the end of the stream is reached.
          */
-        virtual std::wstring Fetch() override;
+        std::wstring Fetch() override;
 
     private:
         using ChunkList = std::deque<std::wstring>;
@@ -41,7 +41,7 @@ namespace Minibook
 
         ChunkList Hyphenate( std::wstring word );
 
-        Stream<std::wstring>& m_source;
+        WordStream& m_source;
 
         std::vector<Rule> m_rules;
         CharClasses m_classes;

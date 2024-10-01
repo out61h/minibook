@@ -57,12 +57,13 @@ Minibook --config=param.json --output=export book.txt
 - [ ] P1: Fix TODOs in CMakeLists.txt.
 - [ ] P1: Copy `libpng` binary files to binary output directory.
 - [ ] P1: Use FSM in `UnicodeDecoder`.
-- [ ] P1: Fix bugs in `LineUnwrapper` logic.
+- [ ] P1: Improve `LineUnwrapper` and `WordBreaker` logic.
 - [ ] P1: Fix wrong color components order.
 - [ ] P2: Add more Doxygen-style comments.
 - [ ] P2: Use STL to work with Unicode.
 - [ ] P2: Remove `AGG` library inclusions from headers (using `Pimpl`?)
 - [ ] P2: Replace non-printable characters with whitespaces in input stream.
+- [ ] P2: Improve `WordHyphenator` logic.
 - [ ] P3: Add detailed building instructions.
 - [ ] P3: Support CR for line termination.
 - [ ] P3: Enable and fix more compiler warnings.

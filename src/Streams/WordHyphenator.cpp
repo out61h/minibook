@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -14,7 +14,7 @@
 
 using namespace Minibook;
 
-WordHyphenator::WordHyphenator( Stream<std::wstring>& source )
+WordHyphenator::WordHyphenator( WordStream& source )
     : m_source( source )
     , m_rules{ { L"gssssg", 3 },
                { L"gsssg", 3 },

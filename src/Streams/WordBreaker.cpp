@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -39,15 +39,16 @@ std::wstring WordBreaker::Fetch()
 
         result.push_back( *ch );
 
-        // newline - the beginning of a new paragraph, give the current word
+        // newline == the beginning of a new paragraph, give the current word
         if ( *ch == Chars::kLineFeed )
             break;
 
-        // comma - the beginning of a new word, give the current word
+        // comma == the beginning of a new word, give the current word
         if ( *ch == Chars::kComma )
             break;
 
-        // space - the beginning of a new word, give the current word
+        // FIXME: Can a space appear here?
+        // space == the beginning of a new word, give the current word
         if ( *ch == Chars::kSpace )
             break;
     }

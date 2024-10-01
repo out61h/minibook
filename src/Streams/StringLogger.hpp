@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -10,30 +10,35 @@
  */
 #pragma once
 
-#include <Interfaces/Stream.hpp>
+#include "Types.hpp"
 
+#include <filesystem>
 #include <fstream>
-#include <string>
 
 namespace Minibook
 {
     /**
-     * @brief Passes a string stream through itself unchanged and logs it to a file
+     * @brief Passes a stream of words through itself unchanged and writes words to a file.
      */
-    class StringLogger final : public Stream<std::wstring>
+    class StringLogger final : public WordStream
     {
     public:
-        StringLogger( Stream<std::wstring>& source,
-                      std::string_view filename,
-                      bool enabled );
+        /**
+         * @brief Construct a new StringLogger object.
+         *
+         * @param source Source stream of words.
+         * @param file Path to a file for logging.
+         * @param enabled If \true, enable logging.
+         */
+        StringLogger( WordStream& source, const std::filesystem::path& filename, bool enabled );
 
         /**
-         * @return empty string, if end of stream reached
+         * @return empty string, if the end of the stream is reached.
          */
-        virtual std::wstring Fetch() override;
+        std::wstring Fetch() override;
 
     private:
-        Stream<std::wstring>& m_source;
+        WordStream& m_source;
 
         std::wofstream m_log;
     };

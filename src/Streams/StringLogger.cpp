@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -14,12 +14,12 @@
 
 using namespace Minibook;
 
-StringLogger::StringLogger( Stream<std::wstring>& source, std::string_view filename, bool enabled )
+StringLogger::StringLogger( WordStream& source, const std::filesystem::path& file, bool enabled )
     : m_source( source )
 {
     if ( enabled )
     {
-        m_log.open( filename.data() );
+        m_log.open( file.generic_string() );
 
         std::locale utf8locale(
             std::locale(),

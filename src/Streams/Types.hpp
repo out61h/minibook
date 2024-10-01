@@ -13,9 +13,11 @@
 #include <Interfaces/Stream.hpp>
 
 #include <optional>
+#include <string>
 
 namespace Minibook
 {
     using CharStream = Stream<std::optional<wchar_t>>;
     using OctetStream = Stream<std::optional<uint8_t>>;
+    using WordStream = Stream<std::wstring>;
 } // namespace Minibook

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -10,41 +10,39 @@
  */
 #pragma once
 
-#include <Interfaces/Stream.hpp>
+#include "Types.hpp"
 
 #include <optional>
 
 namespace Minibook
 {
     /**
-     * @brief Removes LF symbols that are not paragraph separators from input stream
+     * @brief Removes LF characters from the input stream that are not paragraph separators.
      */
-    class LineUnwrapper final : public Stream<std::optional<wchar_t>>
+    class LineUnwrapper final : public CharStream
     {
     public:
-        using CharStream = Stream<std::optional<wchar_t>>;
-
         explicit LineUnwrapper( CharStream& source );
 
         /**
-         * @return no value, if end of stream reached
+         * @return no value, if the end of the stream is reached.
          */
-        virtual std::optional<wchar_t> Fetch() override;
+        std::optional<wchar_t> Fetch() override;
 
     private:
         CharStream& m_source;
 
         enum class State
         {
-            EatingLineFeeds,
-            EatingLeadingWhitespaces,
-            StreamingChar,
-            StreamingBufferedChar
+            EatLineFeeds,
+            EatLeadingWhitespaces,
+            StreamChar,
+            StreamBufferedChar
         };
 
-        State m_state;
-        State m_nextState;
-        wchar_t m_bufferedChar;
+        State m_state = State::EatLeadingWhitespaces;
+        State m_nextState = State::StreamChar;
+        wchar_t m_bufferedChar = 0;
     };
 
 } // namespace Minibook

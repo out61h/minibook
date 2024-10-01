@@ -30,7 +30,7 @@ namespace Minibook
          *
          * @param source Source stream of chars.
          * @param file Path to a file for logging.
-         * @param enabled Enabling logging.
+         * @param enabled If \true, enable logging.
          */
         CharLogger( CharStream& source, const std::filesystem::path& file, bool enabled );
 

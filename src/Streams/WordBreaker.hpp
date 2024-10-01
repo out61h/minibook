@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -10,29 +10,24 @@
  */
 #pragma once
 
-#include <Interfaces/Stream.hpp>
-
-#include <string>
-#include <optional>
+#include "Types.hpp"
 
 namespace Minibook
 {
     /**
-     * @brief Breaks the input stream of characters into tokens
+     * @brief Splits a stream of characters into a stream of words.
      *
-     * A lexeme is a group of characters that does not contain a space.
+     * A word in this context is a group of characters that does not contain a space.
      */
-    class WordBreaker final : public Stream<std::wstring>
+    class WordBreaker final : public WordStream
     {
     public:
-        using CharStream = Stream<std::optional<wchar_t>>;
-
         explicit WordBreaker( CharStream& source );
 
         /**
-         * @return empty string, if end of stream reached
+         * @return empty string, if the end of the stream is reached.
          */
-        virtual std::wstring Fetch() override;
+        std::wstring Fetch() override;
 
     private:
         CharStream& m_source;
