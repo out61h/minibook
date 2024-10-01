@@ -54,17 +54,19 @@ Minibook --config=param.json --output=export book.txt
 ## TODO
 
 ```
-- [ ] Update CMakeLists.txt.
-- [ ] Imrove `LineUnwrapper` logic.
-- [ ] Fix wrong color components?
-- [ ] Add detailed building instruction.
-- [ ] Add more Doxygen-style comments.
-- [ ] Support CR for line termination.
-- [ ] Use STL to work with Unicode.
-- [ ] Enable and fix more compiler warnings.
-- [ ] Support for more platform and compilers.
-- [ ] Remove `AGG` library inclusions from headers (using `Pimpl`?)
-- [ ] Resolve TODOs in the code.
-- [ ] Replace non-printable characters with whitespaces in input stream.
-- [ ] Add `clang-tidy` config.
-- [ ] Copy `libpng`` binary files to binary output directory.
+- [ ] P1: Fix TODOs in CMakeLists.txt.
+- [ ] P1: Copy `libpng` binary files to binary output directory.
+- [ ] P1: Use FSM in `UnicodeDecoder`.
+- [ ] P1: Fix bugs in `LineUnwrapper` logic.
+- [ ] P1: Fix wrong color components order.
+- [ ] P2: Add more Doxygen-style comments.
+- [ ] P2: Use STL to work with Unicode.
+- [ ] P2: Remove `AGG` library inclusions from headers (using `Pimpl`?)
+- [ ] P2: Replace non-printable characters with whitespaces in input stream.
+- [ ] P3: Add detailed building instructions.
+- [ ] P3: Support CR for line termination.
+- [ ] P3: Enable and fix more compiler warnings.
+- [ ] P3: Support for more platform and compilers.
+- [ ] P3: Resolve TODOs in the code.
+- [ ] P3: Add `clang-tidy` config.
+```
