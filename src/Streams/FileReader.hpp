@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -10,26 +10,30 @@
  */
 #pragma once
 
-#include <Interfaces/Stream.hpp>
+#include "Types.hpp"
 
+#include <filesystem>
 #include <fstream>
 #include <optional>
 
 namespace Minibook
 {
     /**
-     * @brief Reads octet stream from file
+     * @brief Produces a stream of octets from a file.
      */
-    class FileReader final : public Stream<std::optional<uint8_t>>
+    class FileReader final : public OctetStream
     {
     public:
-        explicit FileReader( const std::string& filename );
+        explicit FileReader( const std::filesystem::path& file );
 
         /**
-         * @return no value, if end of stream reached
+         * @return no value, if the end of the stream is reached.
          */
-        virtual std::optional<uint8_t> Fetch() override;
+        std::optional<uint8_t> Fetch() override;
 
+        /**
+         * @brief Returns the progress of reading a file as a normalized value.
+         */
         double GetProgress() const;
 
     private:

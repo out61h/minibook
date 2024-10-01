@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -10,26 +10,24 @@
  */
 #pragma once
 
-#include <Interfaces/Stream.hpp>
+#include "Types.hpp"
 
 #include <optional>
 
 namespace Minibook
 {
     /**
-     * @brief Decodes wchar_t characters from a stream of UTF-8 octets
+     * @brief Decodes wchar_t characters from a stream of UTF-8 octets.
      */
-    class UnicodeDecoder final : public Stream<std::optional<wchar_t>>
+    class UnicodeDecoder final : public CharStream
     {
     public:
-        using OctetStream = Stream<std::optional<uint8_t>>;
-
         explicit UnicodeDecoder( OctetStream& source );
 
         /**
-         * @return no value, if end of stream reached
+         * @return no value, if the end of the stream is reached.
          */
-        virtual std::optional<wchar_t> Fetch() override;
+        std::optional<wchar_t> Fetch() override;
 
     private:
         enum class State
@@ -52,6 +50,6 @@ namespace Minibook
         };
 
         OctetStream& m_source;
-        State m_state;
+        State m_state = State::ExpectedBOM;
     };
 } // namespace Minibook

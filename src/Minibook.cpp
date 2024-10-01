@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -8,28 +8,48 @@
  * license with this file. If not, please visit:
  * https://github.com/out61h/minibook/blob/main/LICENSE
  */
-#include <Exceptions/BadUnicodeData.hpp>
-#include <Exceptions/FileNotOpened.hpp>
-#include <Exceptions/UnknownEncoding.hpp>
-#include <Implementations/TrueTypeFont.hpp>
-#include <Streams/CarriageReturnEater.hpp>
-#include <Streams/CharLogger.hpp>
-#include <Streams/FileReader.hpp>
-#include <Streams/ImageWriter.hpp>
-#include <Streams/LineUnwrapper.hpp>
-#include <Streams/Packager.hpp>
-#include <Streams/PngWriter.hpp>
-#include <Streams/Printer.hpp>
-#include <Streams/StringLogger.hpp>
-#include <Streams/Typesetter.hpp>
-#include <Streams/UnicodeDecoder.hpp>
-#include <Streams/WordHyphenator.hpp>
-#include <Streams/Wordbreaker.hpp>
+#include "Exceptions/BadUnicodeData.hpp"
+#include "Exceptions/FileNotOpened.hpp"
+#include "Exceptions/UnknownEncoding.hpp"
+#include "Implementations/TrueTypeFont.hpp"
+#include "Streams/CarriageReturnEater.hpp"
+#include "Streams/CharLogger.hpp"
+#include "Streams/FileReader.hpp"
+#include "Streams/ImageWriter.hpp"
+#include "Streams/LineUnwrapper.hpp"
+#include "Streams/Packager.hpp"
+#include "Streams/PngWriter.hpp"
+#include "Streams/Printer.hpp"
+#include "Streams/StringLogger.hpp"
+#include "Streams/Typesetter.hpp"
+#include "Streams/UnicodeDecoder.hpp"
+#include "Streams/WordHyphenator.hpp"
+#include "Streams/Wordbreaker.hpp"
 
+#include <chrono>
 #include <filesystem>
 #include <iostream>
 
 using namespace Minibook;
+
+static void print_help()
+{
+    std::cout << "Minibook - text to image converter." << std::endl;
+    std::cout << std::endl;
+    std::cout << "Usage:" << std::endl;
+    std::cout << "  Minibook [--config=<file>] [--output=<folder>] <textfile>";
+    std::cout << "  # Rasterizes input UTF8 encoded text file to PNG images" << std::endl;
+    std::cout << "  Minibook --config=<file>                                 ";
+    std::cout << "  # Exports default configuration to JSON file" << std::endl;
+    std::cout << "  Minibook --help                                          ";
+    std::cout << "  # Shows this screen" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Options:" << std::endl;
+    std::cout << "--help             Shows this screen." << std::endl;
+    std::cout << "--config=<file>    Specifies JSON configuration file name." << std::endl;
+    std::cout << "--output=<folder>  Specifies output folder name." << std::endl;
+    std::cout << std::endl;
+}
 
 int main( int argc, char* argv[] )
 {
@@ -38,20 +58,20 @@ int main( int argc, char* argv[] )
         std::string inputFileName;
         std::string configFileName;
         std::string outputFolder;
-        bool needHelp = false;
 
         for ( int argi = 1; argi < argc; ++argi )
         {
-            const std::string_view arg = argv[argi];
+            const std::string_view arg{ argv[argi] };
+            constexpr std::string_view kConfigArg{ "--config=" };
 
-            if ( arg.starts_with( "--config=" ) )
+            if ( arg.starts_with( kConfigArg ) )
             {
-                configFileName = arg.substr( strlen( "--config=" ) );
+                configFileName = arg.substr( kConfigArg.length() );
             }
             else if ( arg.starts_with( "--help" ) )
             {
-                needHelp = true;
-                break;
+                print_help();
+                return EXIT_SUCCESS;
             }
             else if ( arg.starts_with( "--output=" ) )
             {
@@ -68,32 +88,10 @@ int main( int argc, char* argv[] )
             }
         }
 
-        if ( needHelp )
-        {
-            std::cout << "Minibook - text to image converter." << std::endl;
-            std::cout << std::endl;
-            std::cout << "Usage:" << std::endl;
-            std::cout << "  Minibook [--config=<file>] [--output=<folder>] <textfile>";
-            std::cout << "  # Rasterizes input UTF8 encoded text file to PNG images" << std::endl;
-            std::cout << "  Minibook --config=<file>                                 ";
-            std::cout << "  # Exports default configuration to JSON file" << std::endl;
-            std::cout << "  Minibook --help                                          ";
-            std::cout << "  # Shows this screen" << std::endl;
-            std::cout << std::endl;
-            std::cout << "Options:" << std::endl;
-            std::cout << "--help             Shows this screen." << std::endl;
-            std::cout << "--config=<file>    Specifies JSON configuration file name." << std::endl;
-            std::cout << "--output=<folder>  Specifies output folder name." << std::endl;
-            std::cout << std::endl;
-
-            return EXIT_SUCCESS;
-        }
-
         if ( inputFileName.empty() && !configFileName.empty() )
         {
             // Export config and exit
-            Params params;
-            params.Save( configFileName );
+            Params().Save( configFileName );
 
             return EXIT_SUCCESS;
         }
@@ -122,12 +120,12 @@ int main( int argc, char* argv[] )
 
             TrueTypeFont font( params.Font.Name, params.Font.Size, params.Font.Hinting );
 
-            // read octets from text file with UTF8 encoding, decode wide chars and remove CR's
+            // Read octets from text file with UTF8 encoding, decode to wide chars and remove CR's.
             FileReader reader( inputFileName );
             UnicodeDecoder decoder( reader );
             CarriageReturnEater eolConverter( decoder );
 
-            // unwrap preformatted lines, break on words and insert soft hyphenation symbols
+            // Unwrap preformatted lines, break words, and insert soft hyphens.
             LineUnwrapper unwrapper( eolConverter );
             CharLogger textLogger( params.Typesetter.Preprocessing
                                        ? static_cast<CharStream&>( unwrapper )
@@ -163,15 +161,35 @@ int main( int argc, char* argv[] )
             size_t fileSize = 0;
             size_t totalFileSize = 0;
 
-            for ( int page = 1; ( fileSize = writer->Fetch() ) > 0; ++page )
+            // TODO: extract class BookInfoLogger
+            using namespace std::chrono_literals;
+
+            auto time = std::chrono::steady_clock::now();
+
+            auto PrintProgress = []( int page, double progress )
             {
-                std::cout << "\r";
-                std::cout << "Page: " << std::setw( 4 ) << page << " ";
-                std::cout << "(" << std::fixed << std::setprecision( 0 )
-                          << reader.GetProgress() * 100.0 << "%)";
+                std::cout << "\r" << "Page: " << std::setw( 4 ) << page << " " << "(" << std::fixed
+                          << std::setprecision( 0 ) << progress << "%)";
+            };
+
+            int page = 1;
+
+            PrintProgress( 0, 0. );
+
+            for ( ; ( fileSize = writer->Fetch() ) > 0; ++page )
+            {
+                const auto now = std::chrono::steady_clock::now();
+
+                if ( time + 20ms < now )
+                {
+                    time = now;
+                    PrintProgress( page, reader.GetProgress() * 100. );
+                }
 
                 totalFileSize += fileSize;
             }
+
+            PrintProgress( page, 100. );
 
             std::cout << std::endl;
             std::cout << "Images total size: " << totalFileSize / 1024 << " KiB" << std::endl;

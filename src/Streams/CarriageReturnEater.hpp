@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -10,26 +10,24 @@
  */
 #pragma once
 
-#include <Interfaces/Stream.hpp>
+#include "Types.hpp"
 
 #include <optional>
 
 namespace Minibook
 {
     /**
-     * @brief Removes CR symbols from input stream
+     * @brief Removes CR symbols from input stream.
      */
-    class CarriageReturnEater final : public Stream<std::optional<wchar_t>>
+    class CarriageReturnEater final : public CharStream
     {
     public:
-        using CharStream = Stream<std::optional<wchar_t>>;
-
         explicit CarriageReturnEater( CharStream& source );
 
         /**
-         * @return no value, if end of stream reached
+         * @return no value, if end of stream reached.
          */
-        virtual std::optional<wchar_t> Fetch() override;
+        std::optional<wchar_t> Fetch() override;
 
     private:
         CharStream& m_source;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -19,11 +19,11 @@
 
 using namespace Minibook;
 
-TrueTypeFont::TrueTypeFont( std::string_view name, double size, bool hinting )
+TrueTypeFont::TrueTypeFont( const std::filesystem::path& fontFile, double size, bool hinting )
     : m_cache( m_engine )
 {
-    if ( !m_engine.load_font( name.data(), 0, agg::glyph_ren_agg_gray8 ) )
-        throw Exceptions::FileNotOpened( name );
+    if ( !m_engine.load_font( fontFile.generic_string().c_str(), 0, agg::glyph_ren_agg_gray8 ) )
+        throw Exceptions::FileNotOpened( fontFile.generic_string() );
 
     m_engine.hinting( hinting );
     m_engine.height( size );

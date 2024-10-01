@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -83,11 +83,11 @@ public:
         m_rows[row][col / kPixelsPerByte] = byte;
     }
 
-    void SaveToFile( std::string_view filename )
+    void SaveToFile( const std::filesystem::path& file )
     {
-        std::unique_ptr<FILE, decltype( &fclose )> fp( fopen( filename.data(), "wb" ), &fclose );
+        std::unique_ptr<FILE, decltype( &fclose )> fp( _wfopen( file.c_str(), L"wb" ), &fclose );
         if ( !fp )
-            throw Exceptions::FileNotOpened( filename );
+            throw Exceptions::FileNotOpened( file.generic_string() );
 
         Png png;
 

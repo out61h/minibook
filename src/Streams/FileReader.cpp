@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -16,14 +16,14 @@
 
 using namespace Minibook;
 
-FileReader::FileReader( const std::string& filename )
-    : m_input( filename.c_str(), std::ios::in | std::ios::binary )
+FileReader::FileReader( const std::filesystem::path& file )
+    : m_input( file.generic_string(), std::ios::in | std::ios::binary )
     , m_read( 0 )
 {
     if ( !m_input.is_open() )
-        throw Exceptions::FileNotOpened( filename );
+        throw Exceptions::FileNotOpened( file.generic_string() );
 
-    m_size = std::filesystem::file_size( filename );
+    m_size = std::filesystem::file_size( file );
 }
 
 std::optional<uint8_t> FileReader::Fetch()

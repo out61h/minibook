@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -15,6 +15,7 @@
 #include <agg_font_cache_manager.h>
 #include <agg_font_freetype.h>
 
+#include <filesystem>
 #include <string>
 
 namespace Minibook
@@ -22,14 +23,14 @@ namespace Minibook
     class TrueTypeFont final : public Font
     {
     public:
-        TrueTypeFont( std::string_view filename, double size, bool hinting );
+        TrueTypeFont( const std::filesystem::path& fontFile, double size, bool hinting );
 
-        virtual Glyph CreateGlyph( wchar_t ch ) override;
+        Glyph CreateGlyph( wchar_t ch ) override;
 
-        virtual std::pair<double, double>
+        std::pair<double, double>
         DrawGlyph( Page& page, const Glyph& glyph, double x, double y, Color color ) override;
 
-        virtual void BeginDraw() override;
+        void BeginDraw() override;
 
     private:
         using FontEngine = agg::font_engine_freetype_int32;

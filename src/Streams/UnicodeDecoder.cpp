@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -19,7 +19,6 @@ using namespace Minibook;
 
 UnicodeDecoder::UnicodeDecoder( OctetStream& source )
     : m_source( source )
-    , m_state( State::ExpectedBOM )
 {
 }
 

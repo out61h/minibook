@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -12,12 +12,18 @@
 
 namespace Minibook
 {
-    template<typename T>
+    /**
+     * @brief A stream of objects of a certain type.
+     */
+    template<typename ObjectType>
     class Stream
     {
     public:
-        virtual ~Stream() = default;
+        /**
+         * @brief Getting next object from the stream.
+         */
+        virtual ObjectType Fetch() = 0;
 
-        virtual T Fetch() = 0;
+        virtual ~Stream() = default;
     };
 } // namespace Minibook

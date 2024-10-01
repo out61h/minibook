@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -10,8 +10,9 @@
  */
 #pragma once
 
-#include <Interfaces/Stream.hpp>
+#include "Types.hpp"
 
+#include <filesystem>
 #include <fstream>
 #include <optional>
 #include <string>
@@ -19,22 +20,27 @@
 namespace Minibook
 {
     /**
-     * @brief Passes a characters stream through itself unchanged and logs it to a file
+     * @brief Passes a stream of characters through itself unchanged and writes it to a file.
      */
-    class CharLogger final : public Stream<std::optional<wchar_t>>
+    class CharLogger final : public CharStream
     {
     public:
-        CharLogger( Stream<std::optional<wchar_t>>& source,
-                    std::string_view filename,
-                    bool enabled );
+        /**
+         * @brief Construct a new CharLogger object.
+         *
+         * @param source Source stream of chars.
+         * @param file Path to a file for logging.
+         * @param enabled Enabling logging.
+         */
+        CharLogger( CharStream& source, const std::filesystem::path& file, bool enabled );
 
         /**
-         * @return no value, if end of stream reached
+         * @return no value, if the end of the stream is reached.
          */
-        virtual std::optional<wchar_t> Fetch() override;
+        std::optional<wchar_t> Fetch() override;
 
     private:
-        Stream<std::optional<wchar_t>>& m_source;
+        CharStream& m_source;
 
         std::wofstream m_log;
     };

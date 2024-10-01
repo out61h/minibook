@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -10,7 +10,7 @@
  */
 #include "CarriageReturnEater.hpp"
 
-#include "Constants/Chars.hpp"
+#include <Constants/Chars.hpp>
 
 using namespace Minibook;
 
