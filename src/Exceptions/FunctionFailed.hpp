@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -19,11 +19,10 @@ namespace Minibook
         class FunctionFailed final : public std::runtime_error
         {
         public:
-            explicit FunctionFailed( std::string_view functionName )
-                : std::runtime_error( std::string( functionName ) + "() failed" )
+            explicit FunctionFailed( const std::string& functionName )
+                : std::runtime_error( std::string( "Function failed: " ) + functionName + "." )
             {
             }
         };
     } // namespace Exceptions
-    
 } // namespace Minibook

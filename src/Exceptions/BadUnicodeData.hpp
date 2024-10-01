@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -20,10 +20,9 @@ namespace Minibook
         {
         public:
             BadUnicodeData()
-                : std::runtime_error( "Bad Unicode data" )
+                : std::runtime_error( "Bad Unicode data." )
             {
             }
         };
     } // namespace Exceptions
-
 } // namespace Minibook

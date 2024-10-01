@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -19,11 +19,10 @@ namespace Minibook
         class FileNotOpened final : public std::runtime_error
         {
         public:
-            explicit FileNotOpened( std::string_view filePath )
-                : std::runtime_error( std::string( "File not found: " ) + std::string( filePath ) )
+            explicit FileNotOpened( const std::string& filePath )
+                : std::runtime_error( std::string( "File not found: " ) + filePath + "." )
             {
             }
         };
     } // namespace Exceptions
-    
 } // namespace Minibook
