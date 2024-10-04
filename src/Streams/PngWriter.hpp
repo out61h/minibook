@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -10,31 +10,27 @@
  */
 #pragma once
 
-#include <Interfaces/Stream.hpp>
+#include "Types.hpp"
 
-#include <memory>
-#include <string>
+#include <cstdint>
 
 namespace Minibook
 {
-    class Page;
-
     /**
-     * @brief Writes the content of the page to a PNG file with given name
+     * @brief Writes the content of the page to PNG file with given name.
      */
-    class PngWriter final : public Stream<size_t>
+    class PngWriter final : public SizeStream
     {
     public:
-        using SourceStream = Stream<std::pair<const Page*, std::string>>;
-
-        explicit PngWriter( SourceStream& source );
+        explicit PngWriter( PagePathStream& source );
 
         /**
-         * @return 0, if end of stream reached, otherwise file size of written PNG
+         * @return 0, if the end of the stream has been reached, otherwise the size of the written
+         * PNG file.
          */
-        virtual size_t Fetch() override;
+        size_t Fetch() override;
 
     private:
-        SourceStream& m_source;
+        PagePathStream& m_source;
     };
 } // namespace Minibook

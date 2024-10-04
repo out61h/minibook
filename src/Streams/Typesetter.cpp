@@ -16,7 +16,7 @@
 
 using namespace Minibook;
 
-Typesetter::Typesetter( Stream<std::wstring>& source, Font& font, const Params& params )
+Typesetter::Typesetter( WordStream& source, Font& font, const Params& params )
     : m_source( source )
     , m_font( font )
     , m_justification( params.Line.Justification )

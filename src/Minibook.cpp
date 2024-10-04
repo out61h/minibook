@@ -55,9 +55,9 @@ int main( int argc, char* argv[] )
 {
     try
     {
-        std::string inputFileName;
-        std::string configFileName;
-        std::string outputFolder;
+        std::filesystem::path inputFile;
+        std::filesystem::path configFile;
+        std::filesystem::path outputFolder;
 
         for ( int argi = 1; argi < argc; ++argi )
         {
@@ -66,7 +66,7 @@ int main( int argc, char* argv[] )
 
             if ( arg.starts_with( kConfigArg ) )
             {
-                configFileName = arg.substr( kConfigArg.length() );
+                configFile = arg.substr( kConfigArg.length() );
             }
             else if ( arg.starts_with( "--help" ) )
             {
@@ -83,20 +83,20 @@ int main( int argc, char* argv[] )
             }
             else
             {
-                inputFileName = arg;
+                inputFile = arg;
                 break;
             }
         }
 
-        if ( inputFileName.empty() && !configFileName.empty() )
+        if ( inputFile.empty() && !configFile.empty() )
         {
             // Export config and exit
-            Params().Save( configFileName );
+            Params().Save( configFile );
 
             return EXIT_SUCCESS;
         }
 
-        if ( inputFileName.empty() )
+        if ( inputFile.empty() )
         {
             std::cerr << "Minibook --help" << std::endl;
 
@@ -104,49 +104,54 @@ int main( int argc, char* argv[] )
         }
 
         if ( outputFolder.empty() )
-        {
-            std::filesystem::path path( inputFileName );
-            outputFolder = path.stem().string();
-        }
+            outputFolder = inputFile.stem().string();
 
         Params params;
 
-        if ( !configFileName.empty() )
-            params.Load( configFileName );
+        if ( !configFile.empty() )
+        {
+            std::cout << "Using config file " << configFile << std::endl;
+            params.Load( configFile );
+        }
 
         {
-            using CharStream = Stream<std::optional<wchar_t>>;
-            using WriterStream = Stream<size_t>;
-
             TrueTypeFont font( params.Font.Name, params.Font.Size, params.Font.Hinting );
 
             // Read octets from text file with UTF8 encoding, decode to wide chars and remove CR's.
-            FileReader reader( inputFileName );
+            FileReader reader( inputFile );
+            // ==>
             UnicodeDecoder decoder( reader );
+            // ==>
             CarriageReturnEater eolConverter( decoder );
 
             // Unwrap preformatted lines, break words, and insert soft hyphens.
             LineUnwrapper unwrapper( eolConverter );
+            // ==>
             CharLogger textLogger( params.Typesetter.Preprocessing
                                        ? static_cast<CharStream&>( unwrapper )
                                        : static_cast<CharStream&>( eolConverter ),
-                                   "text.log",
+                                   outputFolder / "chars.log",
                                    params.Typesetter.Logging );
+            // ==>
             WordBreaker wordBreaker( textLogger );
+            // ==>
             StringLogger wordBreakerLogger(
-                wordBreaker, "wordbreaker.log", params.Typesetter.Logging );
+                wordBreaker, outputFolder / "words.log", params.Typesetter.Logging );
+            // ==>
             WordHyphenator hyphenator( wordBreakerLogger );
+            // ==>
             StringLogger hyphenatorLogger(
-                hyphenator, "hyphenator.log", params.Typesetter.Logging );
+                hyphenator, outputFolder / "syllables.log", params.Typesetter.Logging );
 
             // print text line-by-line
             Typesetter linebreaker( hyphenatorLogger, font, params );
-            Printer printer( params, font, linebreaker );
+            // ==>
+            Printer printer( linebreaker, font, params );
 
             // save rastered text to PNG files
             Packager packager( printer, outputFolder, params.Chapter.Pages );
-
-            std::unique_ptr<WriterStream> writer;
+            // ==>
+            std::unique_ptr<SizeStream> writer;
 
 #if MINIBOOK_USE_LIBPNG
             if ( params.Typesetter.Format == "png" )
@@ -192,7 +197,7 @@ int main( int argc, char* argv[] )
             PrintProgress( page, 100. );
 
             std::cout << std::endl;
-            std::cout << "Images total size: " << totalFileSize / 1024 << " KiB" << std::endl;
+            std::cout << "Total size of images: " << totalFileSize / 1024 << " KiB" << std::endl;
         }
     }
     catch ( const std::exception& ex )

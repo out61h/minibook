@@ -131,7 +131,7 @@ private:
     std::vector<png_bytep> m_rows;
 };
 
-PngWriter::PngWriter( SourceStream& source )
+PngWriter::PngWriter( PagePathStream& source )
     : m_source( source )
 {
 }
@@ -139,10 +139,10 @@ PngWriter::PngWriter( SourceStream& source )
 size_t PngWriter::Fetch()
 {
     const auto& pair = m_source.Fetch();
-    if ( !pair.first )
-        return 0;
-
     const Page* page = pair.first;
+
+    if ( !page )
+        return 0;
 
     Impl impl( page->GetWidth(), page->GetHeight() );
 
@@ -154,8 +154,10 @@ size_t PngWriter::Fetch()
         }
     }
 
-    const std::string filename = pair.second + ".png";
-    impl.SaveToFile( filename );
+    std::filesystem::path file{ pair.second };
+    file.replace_extension( ".png" );
 
-    return std::filesystem::file_size( filename );
+    impl.SaveToFile( file );
+
+    return std::filesystem::file_size( file );
 }

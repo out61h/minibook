@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -22,13 +22,13 @@ using namespace Minibook;
 
 namespace
 {
-    bool IsJpegFormat( const Params& params )
+    bool UseJpegFormat( const Params& params )
     {
         return params.Typesetter.Format == "jpg" || params.Typesetter.Format == "jpeg";
     }
 } // namespace
 
-ImageWriter::ImageWriter( SourceStream& source, const Params& params )
+ImageWriter::ImageWriter( PagePathStream& source, const Params& params )
     : m_source( source )
     , m_params( params )
 {
@@ -37,16 +37,19 @@ ImageWriter::ImageWriter( SourceStream& source, const Params& params )
 size_t ImageWriter::Fetch()
 {
     const auto& pair = m_source.Fetch();
-    if ( !pair.first )
-        return 0;
-
     const Page* page = pair.first;
 
-    const std::string filename = pair.second + "." + m_params.Typesetter.Format;
+    if ( !page )
+        return 0;
 
-    if ( IsJpegFormat( m_params ) )
+    std::filesystem::path file{ pair.second };
+
+    if ( UseJpegFormat( m_params ) )
     {
-        stbi_write_jpg( filename.data(),
+        const std::filesystem::path ext{ "." + m_params.Typesetter.Format };
+        file.replace_extension( ext );
+
+        stbi_write_jpg( file.generic_string().c_str(),
                         page->GetWidth(),
                         page->GetHeight(),
                         3,
@@ -55,10 +58,12 @@ size_t ImageWriter::Fetch()
     }
     else
     {
+        file.replace_extension( ".png" );
+
         const int level = stbi_write_png_compression_level;
         stbi_write_png_compression_level = m_params.Typesetter.Png.Compression;
 
-        stbi_write_png( filename.data(),
+        stbi_write_png( file.generic_string().c_str(),
                         page->GetWidth(),
                         page->GetHeight(),
                         3,
@@ -68,5 +73,5 @@ size_t ImageWriter::Fetch()
         stbi_write_png_compression_level = level;
     }
 
-    return std::filesystem::file_size( filename );
+    return std::filesystem::file_size( file );
 }

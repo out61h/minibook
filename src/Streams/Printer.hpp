@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -10,7 +10,8 @@
  */
 #pragma once
 
-#include <Interfaces/Stream.hpp>
+#include "Types.hpp"
+
 #include <Structures/Page.hpp>
 #include <Structures/Params.hpp>
 
@@ -20,22 +21,22 @@ namespace Minibook
     class Line;
 
     /**
-     * @brief Forms a page from lines of glyphs
+     * @brief Forms a page from lines of glyphs.
      */
-    class Printer final : public Stream<const Page*>
+    class Printer final : public PageStream
     {
     public:
-        Printer( const Params& params, Font& font, Stream<Line>& source );
+        Printer( LineStream& source, Font& font, const Params& params );
 
         /**
-         * @return nullptr, if end of stream reached
+         * @return nullptr, if the end of the stream is reached.
          */
         virtual const Page* Fetch() override;
 
     private:
-        Params m_params;
+        LineStream& m_source;
         Font& m_font;
+        const Params& m_params;
         Page m_page;
-        Stream<Line>& m_source;
     };
 } // namespace Minibook

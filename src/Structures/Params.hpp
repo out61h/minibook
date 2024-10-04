@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -10,6 +10,7 @@
  */
 #pragma once
 
+#include <filesystem>
 #include <string>
 
 #include "Color.hpp"
@@ -21,8 +22,8 @@ namespace Minibook
     class Params final
     {
     public:
-        void Load( std::string_view filename );
-        void Save( std::string_view filename );
+        void Load( const std::filesystem::path& file );
+        void Save( const std::filesystem::path& file );
 
         struct Page
         {

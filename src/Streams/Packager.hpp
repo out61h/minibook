@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -10,8 +10,9 @@
  */
 #pragma once
 
-#include <Interfaces/Stream.hpp>
+#include "Types.hpp"
 
+#include <filesystem>
 #include <string>
 #include <utility>
 
@@ -20,26 +21,37 @@ namespace Minibook
     class Page;
 
     /**
-     * @brief Generates filenames for saving images using splitting them into subfolders
+     * @brief Generates file names for saving page images, splitting them into subdirectories.
      */
-    class Packager final : public Stream<std::pair<const Page*, std::string>>
+    class Packager final : public PagePathStream
     {
     public:
-        using SourceStream = Stream<const Page*>;
-
-        Packager( SourceStream& source, std::string_view folder, int pagesPerChapter );
+        /**
+         * @brief Construct a new Packager object.
+         *
+         * @param source Source of pages.
+         * @param outputDir Path to output directory.
+         * @param pagesPerChapter Pages per chapters subdirectory.
+         *
+         * If \pagesPerChapter is set to 0, no subdirectories are created.
+         */
+        Packager( PageStream& source, const std::filesystem::path& outputDir, int pagesPerChapter );
 
         /**
-         * @return nullptr with empty string, if end of stream reached
+         * Return a pair of a \Page and its save location (path with file name without
+         * extension).
+         *
+         * @return nullptr with empty path, if the end of the stream is reached.
          */
-        virtual std::pair<const Page*, std::string> Fetch() override;
+        std::pair<const Page*, std::filesystem::path> Fetch() override;
 
     private:
-        SourceStream& m_source;
-        std::string m_outputFolder;
-        int m_pagesPerChapter;
-        int m_pagesCounter;
-        int m_pagesChapter;
-        std::string m_chapterFolder;
+        PageStream& m_source;
+
+        const std::filesystem::path m_outputDir;
+        const int m_pagesPerChapter;
+
+        std::filesystem::path m_chapterDir;
+        int m_pageCounter = 0;
     };
 } // namespace Minibook

@@ -11,13 +11,22 @@
 #pragma once
 
 #include <Interfaces/Stream.hpp>
+#include <Structures/Line.hpp>
+#include <Structures/Page.hpp>
 
+#include <cstdint>
+#include <filesystem>
 #include <optional>
 #include <string>
+#include <utility>
 
 namespace Minibook
 {
     using CharStream = Stream<std::optional<wchar_t>>;
+    using LineStream = Stream<Line>;
     using OctetStream = Stream<std::optional<uint8_t>>;
+    using PageStream = Stream<const Page*>;
+    using PagePathStream = Stream<std::pair<const Page*, std::filesystem::path>>;
+    using SizeStream = Stream<size_t>;
     using WordStream = Stream<std::wstring>;
 } // namespace Minibook

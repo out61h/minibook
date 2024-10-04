@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -10,46 +10,40 @@
  */
 #include "Packager.hpp"
 
-#include <filesystem>
 #include <sstream>
 
 using namespace Minibook;
 
-Packager::Packager( SourceStream& source, std::string_view folder, int pagesPerChapter )
+Packager::Packager( PageStream& source,
+                    const std::filesystem::path& outputDir,
+                    int pagesPerChapter )
     : m_source( source )
-    , m_outputFolder( folder )
+    , m_outputDir( outputDir )
     , m_pagesPerChapter( pagesPerChapter )
-    , m_pagesCounter( 0 )
-    , m_pagesChapter( 0 )
+    , m_chapterDir( outputDir )
 {
-    std::filesystem::create_directory( m_outputFolder );
+    std::filesystem::create_directory( m_outputDir );
 }
 
-std::pair<const Page*, std::string> Packager::Fetch()
+std::pair<const Page*, std::filesystem::path> Packager::Fetch()
 {
     const Page* page = m_source.Fetch();
 
     if ( !page )
         return {};
 
-    if ( !( m_pagesCounter % m_pagesPerChapter ) )
+    if ( m_pagesPerChapter > 0 && !( m_pageCounter % m_pagesPerChapter ) )
     {
-        m_pagesChapter = m_pagesCounter;
+        std::ostringstream chapterSubdir;
+        chapterSubdir << std::setfill( '0' ) << std::setw( 4 ) << m_pageCounter;
 
-        std::ostringstream directoryName;
-        directoryName << m_outputFolder;
-        directoryName << '/';
-        directoryName << std::setfill( '0' ) << std::setw( 4 ) << m_pagesChapter;
+        m_chapterDir = m_outputDir / chapterSubdir.str();
 
-        m_chapterFolder = directoryName.str();
-
-        std::filesystem::create_directory( m_chapterFolder );
+        std::filesystem::create_directory( m_chapterDir );
     }
 
-    std::ostringstream fileName;
-    fileName << m_chapterFolder;
-    fileName << '/';
-    fileName << std::setfill( '0' ) << std::setw( 4 ) << m_pagesCounter++;
+    std::ostringstream pageFilename;
+    pageFilename << std::setfill( '0' ) << std::setw( 4 ) << m_pageCounter++;
 
-    return { page, fileName.str() };
+    return { page, m_chapterDir / pageFilename.str() };
 }

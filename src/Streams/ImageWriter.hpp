@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -10,33 +10,33 @@
  */
 #pragma once
 
-#include <Interfaces/Stream.hpp>
-#include <Structures/Params.hpp>
+#include "Types.hpp"
 
-#include <memory>
-#include <string>
+#include <cstdint>
 
 namespace Minibook
 {
     class Page;
+    class Params;
 
     /**
-     * @brief Writes the content of the page to a image file with given name
+     * @brief Writes the content of the page to a image file with given name.
+     *
+     * Only PNG or JPEG image file formats are supported.
      */
-    class ImageWriter final : public Stream<size_t>
+    class ImageWriter final : public SizeStream
     {
     public:
-        using SourceStream = Stream<std::pair<const Page*, std::string>>;
-
-        ImageWriter( SourceStream& source, const Params& params );
+        ImageWriter( PagePathStream& source, const Params& params );
 
         /**
-         * @return 0, if end of stream reached, otherwise file size of written JPEG
+         * @return 0, if the end of the stream has been reached, otherwise the size of the written
+         * image file.
          */
-        virtual size_t Fetch() override;
+        size_t Fetch() override;
 
     private:
-        SourceStream& m_source;
-        Params m_params;
+        PagePathStream& m_source;
+        const Params& m_params;
     };
 } // namespace Minibook

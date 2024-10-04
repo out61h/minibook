@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -13,15 +13,13 @@
 #include <Interfaces/Font.hpp>
 #include <Structures/Line.hpp>
 
-#include <cassert>
-
 using namespace Minibook;
 
-Printer::Printer( const Params& params, Font& font, Stream<Line>& source )
-    : m_params( params )
+Printer::Printer( LineStream& source, Font& font, const Params& params )
+    : m_source( source )
     , m_font( font )
+    , m_params( params )
     , m_page( params.Page.Size.Width, params.Page.Size.Height, params.Page.Gamma )
-    , m_source( source )
 {
 }
 

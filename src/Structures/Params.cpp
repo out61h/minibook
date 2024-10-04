@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -60,9 +60,9 @@ namespace Minibook
 
 using namespace Minibook;
 
-void Params::Load( std::string_view filename )
+void Params::Load( const std::filesystem::path& filename )
 {
-    std::ifstream stream( filename.data() );
+    std::ifstream stream( filename.generic_string() );
     nlohmann::json json;
     stream >> json;
 
@@ -120,7 +120,7 @@ void Params::Load( std::string_view filename )
     Page.Margin.Right = std::clamp( Page.Margin.Right, 0., Page.Size.Width - Page.Margin.Left );
 }
 
-void Params::Save( std::string_view filename )
+void Params::Save( const std::filesystem::path& filename )
 {
     // clang-format off
     const nlohmann::json json{
@@ -161,6 +161,6 @@ void Params::Save( std::string_view filename )
     };
     // clang-format on
 
-    std::ofstream stream( filename.data() );
+    std::ofstream stream( filename.generic_string() );
     stream << std::setw( 4 ) << json << std::endl;
 }
