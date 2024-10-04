@@ -33,7 +33,7 @@ std::wstring StringLogger::Fetch()
     std::wstring string = m_source.Fetch();
 
     if ( m_log.is_open() )
-        m_log << string << std::endl;
+        m_log << string << "\xB6" << std::endl;
 
     return string;
 }

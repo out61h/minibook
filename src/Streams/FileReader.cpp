@@ -12,8 +12,6 @@
 
 #include <Exceptions/FileNotOpened.hpp>
 
-#include <filesystem>
-
 using namespace Minibook;
 
 FileReader::FileReader( const std::filesystem::path& file )

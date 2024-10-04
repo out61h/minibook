@@ -14,6 +14,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <string>
 
 namespace Minibook
 {

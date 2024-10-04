@@ -12,6 +12,8 @@
 
 #include "Types.hpp"
 
+#include <string>
+
 namespace Minibook
 {
     /**

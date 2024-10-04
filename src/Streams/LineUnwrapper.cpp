@@ -12,8 +12,6 @@
 
 #include <Constants/Chars.hpp>
 
-#include <cstdio>
-
 using namespace Minibook;
 
 LineUnwrapper::LineUnwrapper( CharStream& source )

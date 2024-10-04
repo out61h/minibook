@@ -13,8 +13,6 @@
 #include <Exceptions/BadUnicodeData.hpp>
 #include <Exceptions/UnknownEncoding.hpp>
 
-#include <cstdio>
-
 using namespace Minibook;
 
 UnicodeDecoder::UnicodeDecoder( OctetStream& source )

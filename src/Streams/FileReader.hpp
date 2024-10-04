@@ -12,6 +12,7 @@
 
 #include "Types.hpp"
 
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <optional>
