@@ -53,7 +53,6 @@ Minibook --config=param.json --output=export book.txt
 
 ## TODO
 
-```
 - [ ] P1: Fix TODOs in CMakeLists.txt.
 - [ ] P1: Copy `libpng` binary files to binary output directory.
 - [ ] P1: Use FSM in `UnicodeDecoder`.
@@ -66,6 +65,7 @@ Minibook --config=param.json --output=export book.txt
 - [ ] P2: Remove `AGG` library inclusions from headers (using `Pimpl`?)
 - [ ] P2: Replace non-printable characters with whitespaces in input stream.
 - [ ] P2: Improve `WordHyphenator` logic.
+- [ ] P3: Implement [hanging punctuation](https://en.wikipedia.org/wiki/Hanging_punctuation).
 - [ ] P3: Extract `BookInfoLogger` class.
 - [ ] P3: Add detailed building instructions.
 - [ ] P3: Support CR for line termination.
@@ -73,4 +73,3 @@ Minibook --config=param.json --output=export book.txt
 - [ ] P3: Support for more platform and compilers.
 - [ ] P3: Resolve TODOs in the code.
 - [ ] P3: Add `clang-tidy` config.
-```
