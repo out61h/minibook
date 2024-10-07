@@ -10,9 +10,23 @@
  */
 #include "StringLogger.hpp"
 
+#include <Constants/Chars.hpp>
+
+#include <algorithm>
 #include <locale>
 
 using namespace Minibook;
+
+namespace
+{
+    std::wstring Preprocess( const std::wstring& str )
+    {
+        std::wstring result( str );
+        std::replace( result.begin(), result.end(), Chars::kLineFeed, Chars::kPilcrowSign );
+
+        return result;
+    }
+} // namespace
 
 StringLogger::StringLogger( WordStream& source, const std::filesystem::path& file, bool enabled )
     : m_source( source )
@@ -33,7 +47,7 @@ std::wstring StringLogger::Fetch()
     std::wstring string = m_source.Fetch();
 
     if ( m_log.is_open() )
-        m_log << string << "\xB6" << std::endl;
+        m_log << Preprocess( string ) << Chars::kWhiteSquare << std::endl;
 
     return string;
 }

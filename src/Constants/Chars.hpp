@@ -16,11 +16,13 @@ namespace Minibook
 {
     namespace Chars
     {
-        const wchar_t kCarriageReturn = L'\r';
-        const wchar_t kComma = L',';
-        const wchar_t kLineFeed = L'\n';
-        const wchar_t kSoftHyphen = L'\xad';
-        const wchar_t kSpace = L' ';
-        const wchar_t kTabulation = L'\t';
+        constexpr wchar_t kCarriageReturn = L'\r';
+        constexpr wchar_t kComma = L',';
+        constexpr wchar_t kLineFeed = L'\n';
+        constexpr wchar_t kSoftHyphen = L'\xad';
+        constexpr wchar_t kSpace = L' ';
+        constexpr wchar_t kTabulation = L'\t';
+        constexpr wchar_t kPilcrowSign = L'\xB6';
+        constexpr wchar_t kWhiteSquare = L'\x25A1';
     } // namespace Chars
 } // namespace Minibook
