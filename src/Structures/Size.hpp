@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -14,11 +14,7 @@ namespace Minibook
 {
     struct Size
     {
-        Size()
-            : Width( 0. )
-            , Height( 0. )
-        {
-        }
+        Size() = default;
 
         Size( double width, double height )
             : Width( width )
@@ -26,7 +22,7 @@ namespace Minibook
         {
         }
 
-        double Width;
-        double Height;
+        double Width = 0.;
+        double Height = 0.;
     };
 } // namespace Minibook

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -14,13 +14,7 @@ namespace Minibook
 {
     struct Margin
     {
-        Margin()
-            : Top( 0. )
-            , Right( 0. )
-            , Bottom( 0. )
-            , Left( 0. )
-        {
-        }
+        Margin() = default;
 
         Margin( double top, double right, double bottom, double left )
             : Top( top )
@@ -30,9 +24,9 @@ namespace Minibook
         {
         }
 
-        double Top;
-        double Right;
-        double Bottom;
-        double Left;
+        double Top = 0.;
+        double Right = 0.;
+        double Bottom = 0.;
+        double Left = 0.;
     };
 } // namespace Minibook
