@@ -21,7 +21,7 @@ namespace Minibook
         {
         public:
             explicit FileNotOpened( const std::string& filePath )
-                : std::runtime_error( std::string( "File not found: " ) + filePath + "." )
+                : std::runtime_error( std::string( "File not found: \"" ) + filePath + "\"." )
             {
             }
         };
