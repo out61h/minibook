@@ -19,6 +19,14 @@
 
 using namespace Minibook;
 
+namespace
+{
+    agg::rgba ToAgg( const Color& color )
+    {
+        return { color.red, color.green, color.blue, color.alpha };
+    }
+} // namespace
+
 TrueTypeFont::TrueTypeFont( const std::filesystem::path& fontFile, double size, bool hinting )
     : m_cache( m_engine )
 {
@@ -38,7 +46,7 @@ Glyph TrueTypeFont::CreateGlyph( wchar_t ch )
 }
 
 std::pair<double, double>
-TrueTypeFont::DrawGlyph( Page& page, const Glyph& glyph, double x, double y, Color color )
+TrueTypeFont::PrintGlyph( Page& page, const Glyph& glyph, double x, double y, const Color& color )
 {
     if ( glyph.Cache )
     {
@@ -49,7 +57,7 @@ TrueTypeFont::DrawGlyph( Page& page, const Glyph& glyph, double x, double y, Col
 
         auto& renderer = page.GetRenderer();
 
-        renderer.color( color );
+        renderer.color( ToAgg( color ) );
         agg::render_scanlines( m_cache.gray8_adaptor(), m_cache.gray8_scanline(), renderer );
 
         y += g->advance_y;
@@ -60,7 +68,7 @@ TrueTypeFont::DrawGlyph( Page& page, const Glyph& glyph, double x, double y, Col
     return { x, y };
 }
 
-void TrueTypeFont::BeginDraw()
+void TrueTypeFont::ResetLastPrintedGlyph()
 {
     m_cache.reset_last_glyph();
 }

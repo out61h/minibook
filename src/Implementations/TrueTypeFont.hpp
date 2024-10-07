@@ -27,10 +27,13 @@ namespace Minibook
 
         Glyph CreateGlyph( wchar_t ch ) override;
 
-        std::pair<double, double>
-        DrawGlyph( Page& page, const Glyph& glyph, double x, double y, Color color ) override;
+        std::pair<double, double> PrintGlyph( Page& page,
+                                              const Glyph& glyph,
+                                              double x,
+                                              double y,
+                                              const Color& color ) override;
 
-        void BeginDraw() override;
+        void ResetLastPrintedGlyph() override;
 
     private:
         using FontEngine = agg::font_engine_freetype_int32;

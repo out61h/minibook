@@ -13,6 +13,8 @@
 #include <Interfaces/Font.hpp>
 #include <Structures/Line.hpp>
 
+#include <tuple>
+
 using namespace Minibook;
 
 Printer::Printer( LineStream& source, Font& font, const Params& params )
@@ -27,33 +29,37 @@ const Page* Printer::Fetch()
 {
     m_page.Clear( m_params.Page.Color );
 
-    double linePosition = m_params.Page.Size.Height - m_params.Page.Margin.Top;
+    const double pageRightMarginX = m_params.Page.Size.Width;
+    const double pageBottomMarginY = m_params.Page.Margin.Bottom;
+    const double linePosX = m_params.Page.Margin.Left;
+
+    double linePosY = m_params.Page.Size.Height - m_params.Page.Margin.Top;
     size_t lineCount = 0;
 
     for ( ;; ++lineCount )
     {
-        Line line = m_source.Fetch();
+        const Line line = m_source.Fetch();
 
         if ( line.IsEmpty() )
             break;
 
-        m_font.BeginDraw();
+        m_font.ResetLastPrintedGlyph();
 
-        double x = m_params.Page.Margin.Left;
-        double y = linePosition;
+        double x = linePosX;
+        double y = linePosY;
 
         for ( size_t i = 0; i < line.GetSize(); ++i )
         {
-            std::tie( x, y ) = m_font.DrawGlyph( m_page, line[i], x, y, m_params.Font.Color );
+            std::tie( x, y ) = m_font.PrintGlyph( m_page, line[i], x, y, m_params.Font.Color );
 
             // forcibly trim the line if it doesn't fit
-            if ( x > m_params.Page.Size.Width )
+            if ( x > pageRightMarginX )
                 break;
         }
 
-        linePosition -= line.GetHeight();
+        linePosY -= line.GetHeight();
 
-        if ( linePosition <= m_params.Page.Margin.Bottom )
+        if ( linePosY <= pageBottomMarginY )
             break;
     }
 

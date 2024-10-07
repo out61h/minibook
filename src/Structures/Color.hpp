@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -10,9 +10,13 @@
  */
 #pragma once
 
-#include <agg_color_rgba.h>
-
 namespace Minibook
 {
-    using Color = agg::rgba;
-}
+    struct Color
+    {
+        double red = 0.;
+        double green = 0.;
+        double blue = 0.;
+        double alpha = 0.;
+    };
+} // namespace Minibook

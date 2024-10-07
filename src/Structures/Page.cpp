@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -14,10 +14,18 @@
 
 using namespace Minibook;
 
+namespace
+{
+    agg::rgba ToAgg( const Color& color )
+    {
+        return { color.red, color.green, color.blue, color.alpha };
+    }
+} // namespace
+
 Page::Page( int width, int height, double gamma )
     : m_width( width )
     , m_height( height )
-    , m_pixels{ new agg::int8u[width * height * 4] }
+    , m_pixels{ std::make_unique<agg::int8u[]>( width * height * 4 ) }
     , m_buff( m_pixels.get(), width * 4, height, -width * 3 )
     , m_format( m_buff, m_gammaLut )
     , m_renderer( m_format )
@@ -53,7 +61,7 @@ uint8_t Page::operator()( int col, int row ) const
 
 void Page::Clear( const Color& color )
 {
-    m_renderer.clear( color );
+    m_renderer.clear( ToAgg( color ) );
 }
 
 Page::RendererImplementation& Page::GetRenderer()

@@ -14,24 +14,22 @@
 
 #include <fstream>
 
-namespace agg
-{
-    void to_json( nlohmann::json& j, const rgba& o )
-    {
-        j = nlohmann::json{ { "red", o.r }, { "green", o.g }, { "blue", o.b }, { "alpha", o.a } };
-    }
-
-    void from_json( const nlohmann::json& j, rgba& o )
-    {
-        j.at( "red" ).get_to( o.r );
-        j.at( "green" ).get_to( o.g );
-        j.at( "blue" ).get_to( o.b );
-        j.at( "alpha" ).get_to( o.a );
-    }
-} // namespace agg
-
 namespace Minibook
 {
+    void to_json( nlohmann::json& j, const Color& o )
+    {
+        j = nlohmann::json{
+            { "red", o.red }, { "green", o.green }, { "blue", o.blue }, { "alpha", o.alpha } };
+    }
+
+    void from_json( const nlohmann::json& j, Color& o )
+    {
+        j.at( "red" ).get_to( o.red );
+        j.at( "green" ).get_to( o.green );
+        j.at( "blue" ).get_to( o.blue );
+        j.at( "alpha" ).get_to( o.alpha );
+    }
+
     void to_json( nlohmann::json& j, const Size& s )
     {
         j = nlohmann::json{ { "width", s.Width }, { "height", s.Height } };
