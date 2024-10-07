@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2022 Konstantin Polevik
+ * Copyright (C) 2016-2024 Konstantin Polevik
  * All rights reserved
  *
  * This file is part of the Minibook. Redistribution and use in source and
@@ -14,19 +14,19 @@
 
 using namespace Minibook;
 
-void Line::Append( const Glyph& glyph )
+void Line::AppendGlyph( const Glyph& glyph )
 {
     m_glyphs.push_back( glyph );
     m_width += glyph.Width;
 }
 
-void Line::Append( const Line& glyphs )
+void Line::AppendLine( const Line& glyphs )
 {
     m_glyphs.insert( m_glyphs.end(), glyphs.m_glyphs.begin(), glyphs.m_glyphs.end() );
     m_width += glyphs.GetWidth();
 }
 
-void Line::RemoveLast()
+void Line::RemoveLastGlyph()
 {
     if ( !m_glyphs.empty() )
     {
@@ -35,12 +35,12 @@ void Line::RemoveLast()
     }
 }
 
-const Glyph Line::GetLast() const
+const Glyph& Line::GetLastGlyph() const
 {
     return m_glyphs.back();
 }
 
-bool Line::IsEndsWith( wchar_t ch ) const
+bool Line::IsEndsWithGlyph( wchar_t ch ) const
 {
     return !m_glyphs.empty() && m_glyphs.back().Index == ch;
 }
@@ -60,12 +60,12 @@ bool Line::IsEmpty() const
     return m_glyphs.empty();
 }
 
-void Line::Justify( double lineWidth )
+void Line::JustifyGlyphs( double lineWidth )
 {
     size_t spaceCount = 0;
     double glyphsWidth = 0;
 
-    for ( const auto& glyph : m_glyphs )
+    for ( const Glyph& glyph : m_glyphs )
     {
         if ( glyph.Index == Chars::kSpace )
         {
@@ -77,11 +77,17 @@ void Line::Justify( double lineWidth )
         }
     }
 
+    if ( glyphsWidth >= lineWidth )
+    {
+        // The specified line width is too small.
+        return;
+    }
+
     if ( spaceCount )
     {
         const double spaceWidth = ( lineWidth - glyphsWidth ) / (double)spaceCount;
 
-        for ( auto& glyph : m_glyphs )
+        for ( Glyph& glyph : m_glyphs )
         {
             if ( glyph.Index == Chars::kSpace )
                 glyph.Width = spaceWidth;
@@ -89,7 +95,7 @@ void Line::Justify( double lineWidth )
     }
 }
 
-size_t Line::GetSize() const
+size_t Line::GetGlyphCount() const
 {
     return m_glyphs.size();
 }

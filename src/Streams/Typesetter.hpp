@@ -36,17 +36,17 @@ namespace Minibook
 
     private:
         WordStream& m_source;
-
         Font& m_font;
 
         const bool m_justification;
-        const double m_spaceWith;
-        const double m_lineWidth;
+        const double m_spaceWidth;
+        const double m_maxLineWidth;
         const double m_lineSpacing;
         const double m_paragraphSpacing;
         const double m_paragraphIndent;
 
-        std::wstring m_text;
+        std::wstring m_syllable;
+        wchar_t m_syllableLastChar;
         bool m_startNewParagraph;
     };
 } // namespace Minibook

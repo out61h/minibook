@@ -37,6 +37,10 @@ std::wstring WordBreaker::Fetch()
 
         skipLeadingWhitespaces = false;
 
+        // space == the beginning of a new word, give the current word
+        if ( *ch == Chars::kSpace )
+            break;
+
         result.push_back( *ch );
 
         // newline == the beginning of a new paragraph, give the current word
@@ -47,10 +51,7 @@ std::wstring WordBreaker::Fetch()
         if ( *ch == Chars::kComma )
             break;
 
-        // FIXME: Can a space appear here?
-        // space == the beginning of a new word, give the current word
-        if ( *ch == Chars::kSpace )
-            break;
+        // TODO: Add other delimeters
     }
 
     return result;

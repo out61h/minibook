@@ -48,7 +48,7 @@ const Page* Printer::Fetch()
         double x = linePosX;
         double y = linePosY;
 
-        for ( size_t i = 0; i < line.GetSize(); ++i )
+        for ( size_t i = 0; i < line.GetGlyphCount(); ++i )
         {
             std::tie( x, y ) = m_font.PrintGlyph( m_page, line[i], x, y, m_params.Font.Color );
 
